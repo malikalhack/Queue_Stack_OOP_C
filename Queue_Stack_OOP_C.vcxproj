@@ -21,9 +21,11 @@
   <ItemGroup>
     <ClCompile Include="src\main.c" />
     <ClCompile Include="src\memory.c" />
+    <ClCompile Include="src\stack.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\memory.h" />
+    <ClInclude Include="inc\stack.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
