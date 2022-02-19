@@ -1,8 +1,9 @@
 ﻿/**
  * @file    main.c
- * @version 0.3.0
+ * @version 1.0.0
  * @authors Anton Chernov
  * @date    17/02/2022
+ * @date    19/02/2022
  */
 
 #include "stack.h"

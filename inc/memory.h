@@ -1,8 +1,9 @@
 /**
  * @file    memory.h
- * @version 1.0.0
+ * @version 1.1.0
  * @authors Anton Chernov
  * @date    17/02/2022
+ * @date    19/02/2022
  */
 
 #ifndef MEMORY_H_
@@ -13,6 +14,17 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <assert.h>
+
+#define warning_print(fmt, ...) {\
+        fprintf(\
+            stdout,\
+            "[WARNING] " fmt " in %s, Line %i\n",\
+            __VA_ARGS__,\
+            __FILE__,\
+            __LINE__\
+        );\
+        fflush(stdout);\
+    }
 
 typedef enum el_type {
     BYTE = 1,

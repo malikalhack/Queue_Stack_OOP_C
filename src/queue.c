@@ -1,8 +1,9 @@
 /**
  * @file    queue.c
- * @version 1.0.0
+ * @version 1.1.0
  * @authors Anton Chernov
  * @date    18/02/2022
+ * @date    19/02/2022
  */
 
 #include "queue.h"
@@ -43,12 +44,7 @@ static bool Queue_push_(Memory * const self, uint8_t item) {
         }
         else {
             self->tail = old_tail;
-            printf(
-                "[WARNING] Buffer overflow in %s, Line %i\n",
-                __FILE__,
-                __LINE__
-            );
-            fflush(stdout);
+            warning_print("Buffer overflow");
         }
     }
     return result;

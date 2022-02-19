@@ -1,8 +1,9 @@
 /**
  * @file    stack.c
- * @version 1.0.0
+ * @version 1.1.0
  * @authors Anton Chernov
  * @date    18/02/2022
+ * @date    19/02/2022
  */
 
 #include "stack.h"
@@ -41,12 +42,7 @@ static bool Stack_push_(Memory * const self, uint8_t item) {
         }
         else {
             self->head = self->buffer_size - 1;
-            printf(
-                "[WARNING] Buffer overflow in %s, Line %i\n",
-                __FILE__,
-                __LINE__
-            );
-            fflush(stdout);
+            warning_print("Buffer overflow");
         }
     }
     return result;
