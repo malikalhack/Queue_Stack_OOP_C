@@ -24,12 +24,18 @@
     <ClCompile Include="src\stack.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="src\queue.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\memory.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="inc\stack.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\queue.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

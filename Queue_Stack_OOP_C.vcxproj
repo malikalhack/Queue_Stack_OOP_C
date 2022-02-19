@@ -21,10 +21,12 @@
   <ItemGroup>
     <ClCompile Include="src\main.c" />
     <ClCompile Include="src\memory.c" />
+    <ClCompile Include="src\queue.c" />
     <ClCompile Include="src\stack.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\memory.h" />
+    <ClInclude Include="inc\queue.h" />
     <ClInclude Include="inc\stack.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
