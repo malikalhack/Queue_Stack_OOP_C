@@ -1,6 +1,6 @@
 /**
  * @file    queue.c
- * @version 1.1.0
+ * @version 1.1.1
  * @authors Anton Chernov
  * @date    18/02/2022
  * @date    19/02/2022
@@ -8,27 +8,33 @@
 
 #include "queue.h"
 
+static uint8_t Queue_head_(Data const * const);
+static bool Queue_empty_(Data const * const);
+static void Queue_clean_(Data * const);
+static bool Queue_push_(Data * const, uint8_t);
+static uint8_t Queue_pop_(Data * const);
+
 void Queue_ctor(
     Queue * const self,
     size_t buf_size
     //type el_size
 ) {
-    static struct MemoryVtbl const vtbl = {
+    static struct DataVtbl const vtbl = {
         &Queue_head_,
         &Queue_empty_,
         &Queue_clean_,
         &Queue_push_,
         &Queue_pop_
     };
-    Memory_ctor(&self->super, buf_size/*, el_size*/);
+    Data_ctor(&self->super, buf_size/*, el_size*/);
     self->super.vptr = &vtbl;
 }
 
 void Queue_dctor(Queue * const self) {
-    Memory_dctor(&self->super);
+    Data_dctor(&self->super);
 }
 
-static bool Queue_push_(Memory * const self, uint8_t item) {
+static bool Queue_push_(Data * const self, uint8_t item) {
     bool result = false;
     if (self->is_empty) {
         *(self->ptr + self->head) = item;
@@ -50,7 +56,7 @@ static bool Queue_push_(Memory * const self, uint8_t item) {
     return result;
 }
 
-static uint8_t Queue_pop_(Memory * const self) {
+static uint8_t Queue_pop_(Data * const self) {
     uint8_t result = 0;
     if (!self->is_empty) {
         if (self->tail == self->head) {
@@ -65,7 +71,7 @@ static uint8_t Queue_pop_(Memory * const self) {
     return result;
 }
 
-static uint8_t Queue_head_(Memory const * const self) {
+static uint8_t Queue_head_(Data const * const self) {
     uint8_t result = 0;
     if (!self->is_empty) {
         result = *(self->ptr + self->head);
@@ -73,7 +79,7 @@ static uint8_t Queue_head_(Memory const * const self) {
     return result;
 }
 
-static void Queue_clean_(Memory * const self) {
+static void Queue_clean_(Data * const self) {
     for (size_t i = 0; i < self->buffer_size; i++) {
         *(self->ptr + i) = 0;
     }
@@ -82,6 +88,6 @@ static void Queue_clean_(Memory * const self) {
     self->is_empty = true;
 }
 
-static bool Queue_empty_(Memory const * const self) {
+static bool Queue_empty_(Data const * const self) {
     return self->is_empty;
 }

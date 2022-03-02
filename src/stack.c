@@ -1,34 +1,40 @@
 /**
  * @file    stack.c
- * @version 1.1.0
+ * @version 1.1.1
  * @authors Anton Chernov
  * @date    18/02/2022
- * @date    19/02/2022
+ * @date    02/03/2022
  */
 
 #include "stack.h"
+
+static uint8_t Stack_head_(Data const * const);
+static bool Stack_empty_(Data const * const);
+static void Stack_clean_(Data * const);
+static bool Stack_push_(Data * const, uint8_t);
+static uint8_t Stack_pop_(Data * const);
 
 void Stack_ctor(
     Stack * const self,
     size_t buf_size
     //type el_size
 ) {
-    static struct MemoryVtbl const vtbl = {
+    static struct DataVtbl const vtbl = {
         &Stack_head_,
         &Stack_empty_,
         &Stack_clean_,
         &Stack_push_,
         &Stack_pop_
     };
-    Memory_ctor(&self->super, buf_size/*, el_size*/);
+    Data_ctor(&self->super, buf_size/*, el_size*/);
     self->super.vptr = &vtbl;
 }
 
 void Stack_dctor(Stack * const self) {
-    Memory_dctor(&self->super);
+    Data_dctor(&self->super);
 }
 
-static bool Stack_push_(Memory * const self, uint8_t item) {
+static bool Stack_push_(Data * const self, uint8_t item) {
     bool result = false;
     if (self->is_empty) {
         *(self->ptr + self->head) = item;
@@ -47,19 +53,19 @@ static bool Stack_push_(Memory * const self, uint8_t item) {
     }
     return result;
 }
-static uint8_t Stack_pop_(Memory * const self) {
+static uint8_t Stack_pop_(Data * const self) {
     uint8_t result = 0;
     if (!self->is_empty) {
         if (!self->head) {
             self->is_empty = true;
-            result = *(self->ptr + self->head);
+            result = *self->ptr;
         }
         else result = *(self->ptr + self->head--);
     }
     return result;
 }
 
-static uint8_t Stack_head_(Memory const * const self) {
+static uint8_t Stack_head_(Data const * const self) {
     uint8_t result = 0;
     if (!self->is_empty) {
         result = *(self->ptr + self->head);
@@ -67,7 +73,7 @@ static uint8_t Stack_head_(Memory const * const self) {
     return result;
 }
 
-static void Stack_clean_(Memory * const self) {
+static void Stack_clean_(Data * const self) {
     for (size_t i = 0; i < self->buffer_size; i++) {
         *(self->ptr + i) = 0;
     }
@@ -75,6 +81,6 @@ static void Stack_clean_(Memory * const self) {
     self->is_empty = true;
 }
 
-static bool Stack_empty_(Memory const * const self) {
+static bool Stack_empty_(Data const * const self) {
     return self->is_empty;
 }
