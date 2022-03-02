@@ -8,16 +8,15 @@
 
 #include "data.h"
 
-static uint8_t head_(Data const * const);
+static data_t head_(Data const * const);
 static bool empty_(Data const * const);
-static bool push_(Data * const, uint8_t);
-static uint8_t pop_(Data * const);
+static bool push_(Data * const, data_t);
+static data_t pop_(Data * const);
 static void clean_(Data * const);
 
 void Data_ctor(
     Data * const self,
     size_t buf_size
-    //type el_size
 ) {
     static struct DataVtbl const vtbl = {
         &head_,
@@ -26,11 +25,10 @@ void Data_ctor(
         &push_,
         &pop_
     };
-    self->ptr = calloc(buf_size + 1, BYTE /*el_size*/);
+    self->ptr = calloc(buf_size + 1, sizeof(data_t));
     assert(self->ptr);
     self->vptr = &vtbl; /* "hook" the vptr to the vtbl */
     self->buffer_size = buf_size;
-    //self->el_size = el_size;
     self->head = 0;
     self->tail = 0;
     self->is_empty = true;
@@ -43,15 +41,15 @@ void Data_dctor(Data * const self) {
     }
 }
 
-bool push(Data * const self, uint8_t item) {
+bool push(Data * const self, data_t item) {
     return (*self->vptr->push)(self, item);
 }
 
-uint8_t pop(Data * const self) {
+data_t pop(Data * const self) {
     return (*self->vptr->pop)(self);
 }
 
-uint8_t head(Data const * const self) {
+data_t head(Data const * const self) {
     return (*self->vptr->head)(self);
 }
 
@@ -63,17 +61,17 @@ bool empty(Data const * const self) {
     return (*self->vptr->empty)(self);
 }
 
-static bool push_(Data * const self, uint8_t item) {
+static bool push_(Data * const self, data_t item) {
     assert(0); /* purely-virtual function should never be called */
     return false; /* to avoid compiler warnings */
 }
 
-static uint8_t pop_(Data * const self) {
+static data_t pop_(Data * const self) {
     assert(0); /* purely-virtual function should never be called */
     return 0; /* to avoid compiler warnings */
 }
 
-static uint8_t head_(Data const * const self) {
+static data_t head_(Data const * const self) {
     assert(0); /* purely-virtual function should never be called */
     return 0; /* to avoid compiler warnings */
 }

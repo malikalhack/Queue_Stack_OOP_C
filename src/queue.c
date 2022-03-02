@@ -8,16 +8,15 @@
 
 #include "queue.h"
 
-static uint8_t Queue_head_(Data const * const);
+static data_t Queue_head_(Data const * const);
 static bool Queue_empty_(Data const * const);
 static void Queue_clean_(Data * const);
-static bool Queue_push_(Data * const, uint8_t);
-static uint8_t Queue_pop_(Data * const);
+static bool Queue_push_(Data * const, data_t);
+static data_t Queue_pop_(Data * const);
 
 void Queue_ctor(
     Queue * const self,
     size_t buf_size
-    //type el_size
 ) {
     static struct DataVtbl const vtbl = {
         &Queue_head_,
@@ -26,7 +25,7 @@ void Queue_ctor(
         &Queue_push_,
         &Queue_pop_
     };
-    Data_ctor(&self->super, buf_size/*, el_size*/);
+    Data_ctor(&self->super, buf_size);
     self->super.vptr = &vtbl;
 }
 
@@ -34,7 +33,7 @@ void Queue_dctor(Queue * const self) {
     Data_dctor(&self->super);
 }
 
-static bool Queue_push_(Data * const self, uint8_t item) {
+static bool Queue_push_(Data * const self, data_t item) {
     bool result = false;
     if (self->is_empty) {
         *(self->ptr + self->head) = item;
@@ -56,8 +55,8 @@ static bool Queue_push_(Data * const self, uint8_t item) {
     return result;
 }
 
-static uint8_t Queue_pop_(Data * const self) {
-    uint8_t result = 0;
+static data_t Queue_pop_(Data * const self) {
+    data_t result = 0;
     if (!self->is_empty) {
         if (self->tail == self->head) {
             self->is_empty = true;
@@ -71,8 +70,8 @@ static uint8_t Queue_pop_(Data * const self) {
     return result;
 }
 
-static uint8_t Queue_head_(Data const * const self) {
-    uint8_t result = 0;
+static data_t Queue_head_(Data const * const self) {
+    data_t result = 0;
     if (!self->is_empty) {
         result = *(self->ptr + self->head);
     }

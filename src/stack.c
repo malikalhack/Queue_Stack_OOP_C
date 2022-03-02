@@ -8,16 +8,15 @@
 
 #include "stack.h"
 
-static uint8_t Stack_head_(Data const * const);
+static data_t Stack_head_(Data const * const);
 static bool Stack_empty_(Data const * const);
 static void Stack_clean_(Data * const);
-static bool Stack_push_(Data * const, uint8_t);
-static uint8_t Stack_pop_(Data * const);
+static bool Stack_push_(Data * const, data_t);
+static data_t Stack_pop_(Data * const);
 
 void Stack_ctor(
     Stack * const self,
     size_t buf_size
-    //type el_size
 ) {
     static struct DataVtbl const vtbl = {
         &Stack_head_,
@@ -26,7 +25,7 @@ void Stack_ctor(
         &Stack_push_,
         &Stack_pop_
     };
-    Data_ctor(&self->super, buf_size/*, el_size*/);
+    Data_ctor(&self->super, buf_size);
     self->super.vptr = &vtbl;
 }
 
@@ -34,7 +33,8 @@ void Stack_dctor(Stack * const self) {
     Data_dctor(&self->super);
 }
 
-static bool Stack_push_(Data * const self, uint8_t item) {
+static bool Stack_push_(Data * const self, data_t item) {
+
     bool result = false;
     if (self->is_empty) {
         *(self->ptr + self->head) = item;
@@ -53,8 +53,8 @@ static bool Stack_push_(Data * const self, uint8_t item) {
     }
     return result;
 }
-static uint8_t Stack_pop_(Data * const self) {
-    uint8_t result = 0;
+static data_t Stack_pop_(Data * const self) {
+    data_t result = 0;
     if (!self->is_empty) {
         if (!self->head) {
             self->is_empty = true;
@@ -65,8 +65,8 @@ static uint8_t Stack_pop_(Data * const self) {
     return result;
 }
 
-static uint8_t Stack_head_(Data const * const self) {
-    uint8_t result = 0;
+static data_t Stack_head_(Data const * const self) {
+    data_t result = 0;
     if (!self->is_empty) {
         result = *(self->ptr + self->head);
     }

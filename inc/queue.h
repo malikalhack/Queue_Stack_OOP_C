@@ -15,7 +15,7 @@ typedef struct {
     Data super;
 } Queue;
 
-void Queue_ctor(Queue * const, size_t /*, type*/);
+void Queue_ctor(Queue * const, size_t);
 void Queue_dctor(Queue * const);
 
 #endif // !QUEUE_H_

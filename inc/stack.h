@@ -15,7 +15,7 @@ typedef struct {
     Data super;
 } Stack;
 
-void Stack_ctor(Stack * const, size_t/*, type*/);
+void Stack_ctor(Stack * const, size_t);
 void Stack_dctor(Stack * const);
 
 #endif // !STACK_H_

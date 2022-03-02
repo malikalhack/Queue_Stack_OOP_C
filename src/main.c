@@ -21,8 +21,8 @@ int main() {
     Stack stack_1;
     Queue queue_1;
 
-    Stack_ctor(&stack_1, STACK_LENGTH /*, BYTE*/);
-    Queue_ctor(&queue_1, QUEUE_LENGTH /*, BYTE*/);
+    Stack_ctor(&stack_1, STACK_LENGTH);
+    Queue_ctor(&queue_1, QUEUE_LENGTH);
 
     /* Added extra unit to size to check for buffer overflow */
     for (
